@@ -11,7 +11,7 @@ def main():
 
     iniPath = "test.INI"
     readIni = ReadINI(iniPath)
-    file_names, repeats = readIni.read_data()
+    file_names, repeats, results = readIni.read_data()
 
     print("====================")
     print("Geometric cooling | Swap neighbor:\n")
@@ -28,6 +28,10 @@ def main():
         print(file_names[i])
         print("Najlepsza trasa:", best_solution)
         print("Długość trasy:", best_distance)
+        if best_distance == results[i]:
+            print("OK")
+        else:
+            print("NOT OK")
         print()
 
     print("====================")
@@ -45,6 +49,10 @@ def main():
         print(file_names[i])
         print("Najlepsza trasa:", best_solution)
         print("Długość trasy:", best_distance)
+        if best_distance == results[i]:
+            print("OK")
+        else:
+            print("NOT OK")
         print()
 
     print("====================")
@@ -62,6 +70,10 @@ def main():
         print(file_names[i])
         print("Najlepsza trasa:", best_solution)
         print("Długość trasy:", best_distance)
+        if best_distance == results[i]:
+            print("OK")
+        else:
+            print("NOT OK")
         print()
 
     print("====================")
@@ -79,6 +91,10 @@ def main():
         print(file_names[i])
         print("Najlepsza trasa:", best_solution)
         print("Długość trasy:", best_distance)
+        if best_distance == results[i]:
+            print("OK")
+        else:
+            print("NOT OK")
         print()
 
 
