@@ -1,6 +1,7 @@
 import math
 import random
 
+
 class SimulatedAnnealing:
 
     def __init__(self, distance_matrix, initial_temperature, cooling_rate, num_iterations):
@@ -31,10 +32,15 @@ class SimulatedAnnealing:
         total_distance += self.distance_matrix[tour[-1]][tour[0]]  # Wrapping back to the starting city
         return total_distance
 
+    # Geometric cooling
     def geometric_cooling(self, initial_temperature, cooling_factor, iteration):
         return initial_temperature * cooling_factor ** iteration
 
-    def start(self):
+    # Logarithmic cooling
+    def logarithmic_cooling(self, initial_temperature, iteration):
+        return initial_temperature / math.log(2 + iteration)
+
+    def start(self, cooling_method):
         num_cities = len(self.distance_matrix)
         current_solution = self.generate_initial_solution(num_cities)
         current_distance = self.calculate_total_distance(current_solution)
@@ -55,6 +61,9 @@ class SimulatedAnnealing:
                 best_solution = current_solution.copy()
                 best_distance = current_distance
 
-            temperature = self.geometric_cooling(self.initial_temperature, self.cooling_rate, iteration)
+            if cooling_method == "geo":
+                temperature = self.geometric_cooling(self.initial_temperature, self.cooling_rate, iteration)
+            if cooling_method == "log":
+                temperature = self.logarithmic_cooling(self.initial_temperature, self.cooling_rate)
 
         return best_solution, best_distance

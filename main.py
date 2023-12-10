@@ -21,7 +21,7 @@ def main():
         init_temp = temp.find_initial_temperature()
 
         sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
-        best_solution, best_distance = sa.start()
+        best_solution, best_distance = sa.start("log")
         print("Najlepsza trasa:", best_solution)
         print("Długość trasy:", best_distance)
 
