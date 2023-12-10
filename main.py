@@ -20,18 +20,22 @@ def main():
         readFile = ReadFile(file_names[i])
         graph = readFile.read_data()
 
-        temp = Temperature(graph, acceptable_rate, num_trials, "swap")
-        init_temp = temp.find_initial_temperature()
+        errors = 0
 
-        sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
-        best_solution, best_distance = sa.start("geo", "swap")
         print(file_names[i])
-        print("Najlepsza trasa:", best_solution)
-        print("Długość trasy:", best_distance)
-        if best_distance == results[i]:
-            print("OK")
-        else:
-            print("NOT OK")
+        print("Swap")
+
+        for j in range(0, repeats[i]):
+            temp = Temperature(graph, acceptable_rate, num_trials, "swap")
+            init_temp = temp.find_initial_temperature()
+
+            sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
+            best_solution, best_distance = sa.start("geo", "swap")
+
+            if best_distance != results[i]:
+                errors = errors + 1
+
+        print("Error rate: ", (errors / repeats[i])*100, "%")
         print()
 
     print("====================")
@@ -41,19 +45,24 @@ def main():
         readFile = ReadFile(file_names[i])
         graph = readFile.read_data()
 
-        temp = Temperature(graph, acceptable_rate, num_trials, "rotation")
-        init_temp = temp.find_initial_temperature()
+        errors = 0
 
-        sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
-        best_solution, best_distance = sa.start("geo", "rotation")
         print(file_names[i])
-        print("Najlepsza trasa:", best_solution)
-        print("Długość trasy:", best_distance)
-        if best_distance == results[i]:
-            print("OK")
-        else:
-            print("NOT OK")
+        print("Rotation")
+
+        for j in range(0, repeats[i]):
+            temp = Temperature(graph, acceptable_rate, num_trials, "rotation")
+            init_temp = temp.find_initial_temperature()
+
+            sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
+            best_solution, best_distance = sa.start("geo", "rotation")
+
+            if best_distance != results[i]:
+                errors = errors + 1
+
+        print("Error rate: ", (errors / repeats[i]) * 100, "%")
         print()
+
 
     print("====================")
     print("Logarithmic cooling | Swap neighbor:\n")
@@ -62,18 +71,22 @@ def main():
         readFile = ReadFile(file_names[i])
         graph = readFile.read_data()
 
-        temp = Temperature(graph, acceptable_rate, num_trials, "swap")
-        init_temp = temp.find_initial_temperature()
+        errors = 0
 
-        sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
-        best_solution, best_distance = sa.start("log", "swap")
         print(file_names[i])
-        print("Najlepsza trasa:", best_solution)
-        print("Długość trasy:", best_distance)
-        if best_distance == results[i]:
-            print("OK")
-        else:
-            print("NOT OK")
+        print("Swap")
+
+        for j in range(0, repeats[i]):
+            temp = Temperature(graph, acceptable_rate, num_trials, "swap")
+            init_temp = temp.find_initial_temperature()
+
+            sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
+            best_solution, best_distance = sa.start("log", "swap")
+
+            if best_distance != results[i]:
+                errors = errors + 1
+
+        print("Error rate: ", (errors / repeats[i])*100, "%")
         print()
 
     print("====================")
@@ -83,20 +96,23 @@ def main():
         readFile = ReadFile(file_names[i])
         graph = readFile.read_data()
 
-        temp = Temperature(graph, acceptable_rate, num_trials, "rotation")
-        init_temp = temp.find_initial_temperature()
+        errors = 0
 
-        sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
-        best_solution, best_distance = sa.start("log", "rotation")
         print(file_names[i])
-        print("Najlepsza trasa:", best_solution)
-        print("Długość trasy:", best_distance)
-        if best_distance == results[i]:
-            print("OK")
-        else:
-            print("NOT OK")
-        print()
+        print("Rotation")
 
+        for j in range(0, repeats[i]):
+            temp = Temperature(graph, acceptable_rate, num_trials, "rotation")
+            init_temp = temp.find_initial_temperature()
+
+            sa = SimulatedAnnealing(graph, init_temp, 0.995, 10000)
+            best_solution, best_distance = sa.start("log", "rotation")
+
+            if best_distance != results[i]:
+                errors = errors + 1
+
+        print("Error rate: ", (errors / repeats[i])*100, "%")
+        print()
 
 if __name__ == "__main__":
     main()
