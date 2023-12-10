@@ -18,10 +18,21 @@ class SimulatedAnnealing:
     def generate_initial_solution(self, num_cities):
         return random.sample(range(num_cities), num_cities)
 
-    def generate_neighbor_solution(self, current_solution):
+    def generate_neighbor_solution_swap(self, current_solution):
         neighbor_solution = current_solution.copy()
         index1, index2 = random.sample(range(len(current_solution)), 2)
         neighbor_solution[index1], neighbor_solution[index2] = neighbor_solution[index2], neighbor_solution[index1]
+        return neighbor_solution
+
+    def rotate_fragment(self, solution):
+        index1, index2, index3 = sorted(random.sample(range(len(solution)), 3))
+        rotated_fragment = solution[index2:index3 + 1]
+        rotated_fragment.reverse()
+        new_solution = solution[:index2] + rotated_fragment + solution[index3 + 1:]
+        return new_solution
+
+    def generate_neighbor_solution_rotation(self, current_solution):
+        neighbor_solution = self.rotate_fragment(current_solution)
         return neighbor_solution
 
     def calculate_total_distance(self, tour):
@@ -40,7 +51,7 @@ class SimulatedAnnealing:
     def logarithmic_cooling(self, initial_temperature, iteration):
         return initial_temperature / math.log(2 + iteration)
 
-    def start(self, cooling_method):
+    def start(self, cooling_method, neighbor_method):
         num_cities = len(self.distance_matrix)
         current_solution = self.generate_initial_solution(num_cities)
         current_distance = self.calculate_total_distance(current_solution)
@@ -50,7 +61,10 @@ class SimulatedAnnealing:
         temperature = self.initial_temperature
 
         for iteration in range(self.num_iterations):
-            neighbor_solution = self.generate_neighbor_solution(current_solution)
+            if neighbor_method == "swap":
+                neighbor_solution = self.generate_neighbor_solution_swap(current_solution)
+            if neighbor_method == "rotation":
+                neighbor_solution = self.generate_neighbor_solution_rotation(current_solution)
             new_distance = self.calculate_total_distance(neighbor_solution)
 
             if self.acceptance_probability(current_distance, new_distance, temperature) > random.random():
