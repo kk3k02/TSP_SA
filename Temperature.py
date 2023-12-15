@@ -5,7 +5,7 @@ from SimulatedAnnealing import SimulatedAnnealing
 class Temperature:
 
     def __init__(self, graph, acceptable_rate, num_trials, neighbor_method):
-        self.sa_instance = SimulatedAnnealing(graph, 1000, 0.995, 10000)
+        self.sa_instance = SimulatedAnnealing(graph.g, 10000, 0.995, 10000)
         self.acceptable_rate = acceptable_rate
         self.num_trials = num_trials
         self.neighbor_method = neighbor_method
