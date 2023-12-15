@@ -11,7 +11,7 @@ class SimulatedAnnealing:
         self.num_iterations = num_iterations
 
     def acceptance_probability(self, current_distance, new_distance, temperature):
-        if new_distance < current_distance:
+        if new_distance < current_distance or temperature == 0:
             return 1.0
         return math.exp((current_distance - new_distance) / temperature)
 
@@ -44,12 +44,12 @@ class SimulatedAnnealing:
         return total_distance
 
     # Geometric cooling
-    def geometric_cooling(self, initial_temperature, cooling_factor, iteration):
-        return initial_temperature * cooling_factor ** iteration
+    def geometric_cooling(self, iteration):
+        return self.initial_temperature * self.cooling_rate ** iteration
 
     # Logarithmic cooling
-    def logarithmic_cooling(self, initial_temperature, iteration):
-        return initial_temperature / math.log(2 + iteration)
+    def logarithmic_cooling(self, iteration):
+        return self.initial_temperature / (1 + math.log(2 + iteration))
 
     def start(self, cooling_method, neighbor_method):
         num_cities = len(self.distance_matrix)
@@ -76,8 +76,8 @@ class SimulatedAnnealing:
                 best_distance = current_distance
 
             if cooling_method == "geo":
-                temperature = self.geometric_cooling(self.initial_temperature, self.cooling_rate, iteration)
+                temperature = self.geometric_cooling(iteration)
             if cooling_method == "log":
-                temperature = self.logarithmic_cooling(self.initial_temperature, self.cooling_rate)
+                temperature = self.logarithmic_cooling(iteration)
 
         return best_solution, best_distance

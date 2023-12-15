@@ -20,16 +20,12 @@ def main():
         graph = file.readData()
         temp = Temperature(graph, file.num_ver)
 
-        print(file.filePath)
+        print("|>", file.filePath)
         print()
 
-        errors = 0
+        errors = 0.0
 
-        print("====================")
-        print("Geometric cooling | Swap neighbor:\n")
-
-        print(file_names[i])
-        print("Swap")
+        print("Geometric cooling | Swap neighbor:")
 
         for j in range(0, repeats[i]):
             init_temp = temp.find_initial_temperature()
@@ -38,18 +34,14 @@ def main():
             best_solution, best_distance = sa.start("geo", "swap")
 
             if best_distance != results[i]:
-                errors = errors + 1
+                errors = (best_distance - results[i]) / results[i]
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        print("Error rate: ", errors * 100, "%")
         print()
 
-        print("====================")
-        print("Geometric cooling | Rotation neighbor:\n")
+        print("Geometric cooling | Rotation neighbor:")
 
-        errors = 0
-
-        print(file_names[i])
-        print("Rotation")
+        errors = 0.0
 
         for j in range(0, repeats[i]):
             init_temp = temp.find_initial_temperature()
@@ -58,18 +50,14 @@ def main():
             best_solution, best_distance = sa.start("geo", "rotation")
 
             if best_distance != results[i]:
-                errors = errors + 1
+                errors = (best_distance - results[i]) / results[i]
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        print("Error rate: ", errors * 100, "%")
         print()
 
-        print("====================")
-        print("Logarithmic cooling | Swap neighbor:\n")
+        print("Logarithmic cooling | Swap neighbor:")
 
-        errors = 0
-
-        print(file_names[i])
-        print("Swap")
+        errors = 0.0
 
         for j in range(0, repeats[i]):
             init_temp = temp.find_initial_temperature()
@@ -78,18 +66,14 @@ def main():
             best_solution, best_distance = sa.start("log", "swap")
 
             if best_distance != results[i]:
-                errors = errors + 1
+                errors = (best_distance - results[i]) / results[i]
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        print("Error rate: ", errors * 100, "%")
         print()
 
-        print("====================")
-        print("Logarithmic cooling | Rotation neighbor:\n")
+        print("Logarithmic cooling | Rotation neighbor:")
 
-        errors = 0
-
-        print(file_names[i])
-        print("Rotation")
+        errors = 0.0
 
         for j in range(0, repeats[i]):
             init_temp = temp.find_initial_temperature()
@@ -98,9 +82,9 @@ def main():
             best_solution, best_distance = sa.start("log", "rotation")
 
             if best_distance != results[i]:
-                errors = errors + 1
+                errors = (best_distance - results[i]) / results[i]
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        print("Error rate: ", errors * 100, "%")
         print()
 
 
