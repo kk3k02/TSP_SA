@@ -3,6 +3,7 @@ from ReadFile import ReadFile
 from TimeStamp import TimeStamp
 from SimulatedAnnealing import SimulatedAnnealing
 from Temperature import Temperature
+from SaveToFile import SaveToFile
 
 
 def main():
@@ -15,7 +16,13 @@ def main():
     file_names, repeats, results = reader.read_data()
     timestamp = TimeStamp()
 
-    for i in range(0, len(file_names)):
+    schemas = ["Geometric cooling | Swap neighbor:", "Geometric cooling | Rotation neighbor:", "Logarithmic cooling | "
+                                                                                               "Swap neighbor:",
+               "Logarithmic cooling | Rotation neighbor:"]
+
+    output = ["results/SA_TSP_GEO.csv", "results/SA_TSP_LOG.csv"]
+
+    for i in range(len(file_names)):
         print("========================================================")
 
         graph = ReadFile(file_names[i])
@@ -26,8 +33,9 @@ def main():
         print()
 
         errors = 0.0
+        result_times = []
 
-        print("Geometric cooling | Swap neighbor:")
+        print(schemas[0])
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, num_iterations)
@@ -35,17 +43,24 @@ def main():
             timestamp.start()
             best_solution, best_distance = sa.start("geo", "swap")
             result = timestamp.end()
-            print(result)
+            result_times.append(result)
 
             if best_distance != results[i]:
-                errors = errors + ((best_distance - results[i]) / results[i])
+                temp = (best_distance - results[i]) / results[i]
+                errors = errors + temp
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        error_level = (errors / repeats[i]) * 100
+        print("Error rate: ", error_level, "%")
         print()
 
-        print("Geometric cooling | Rotation neighbor:")
+        save_file = SaveToFile(output[0], file_names[i], schemas[0], repeats[i], num_iterations, init_temp,
+                               error_level, result_times)
+        save_file.save()
+
+        print(schemas[1])
 
         errors = 0.0
+        result_times = []
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
@@ -53,17 +68,24 @@ def main():
             timestamp.start()
             best_solution, best_distance = sa.start("geo", "rotation")
             result = timestamp.end()
-            print(result)
+            result_times.append(result)
 
             if best_distance != results[i]:
-                errors = errors + (best_distance - results[i]) / results[i]
+                temp = (best_distance - results[i]) / results[i]
+                errors = errors + temp
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        error_level = (errors / repeats[i]) * 100
+        print("Error rate: ", error_level, "%")
         print()
 
-        print("Logarithmic cooling | Swap neighbor:")
+        save_file = SaveToFile(output[0], file_names[i], schemas[1], repeats[i], num_iterations, init_temp,
+                               error_level, result_times)
+        save_file.save()
+
+        print(schemas[2])
 
         errors = 0.0
+        result_times = []
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
@@ -71,17 +93,24 @@ def main():
             timestamp.start()
             best_solution, best_distance = sa.start("log", "swap")
             result = timestamp.end()
-            print(result)
+            result_times.append(result)
 
             if best_distance != results[i]:
-                errors = errors + ((best_distance - results[i]) / results[i])
+                temp = (best_distance - results[i]) / results[i]
+                errors = errors + temp
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        error_level = (errors / repeats[i]) * 100
+        print("Error rate: ", error_level, "%")
         print()
 
-        print("Logarithmic cooling | Rotation neighbor:")
+        save_file = SaveToFile(output[1], file_names[i], schemas[2], repeats[i], num_iterations, init_temp,
+                               error_level, result_times)
+        save_file.save()
+
+        print(schemas[3])
 
         errors = 0.0
+        result_times = []
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
@@ -89,13 +118,19 @@ def main():
             timestamp.start()
             best_solution, best_distance = sa.start("log", "rotation")
             result = timestamp.end()
-            print(result)
+            result_times.append(result)
 
             if best_distance != results[i]:
-                errors = errors + ((best_distance - results[i]) / results[i])
+                temp = (best_distance - results[i]) / results[i]
+                errors = errors + temp
 
-        print("Error rate: ", (errors / repeats[i]) * 100, "%")
+        error_level = (errors / repeats[i]) * 100
+        print("Error rate: ", error_level, "%")
         print()
+
+        save_file = SaveToFile(output[1], file_names[i], schemas[3], repeats[i], num_iterations, init_temp,
+                               error_level, result_times)
+        save_file.save()
 
 
 if __name__ == "__main__":

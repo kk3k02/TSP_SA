@@ -8,7 +8,7 @@ class Temperature:
     def __init__(self, graph):
         self.graph = graph.g
         self.num_ver = graph.vertices
-        self.alpha = 10000000.0
+        self.alpha = 1000000.0
 
     def find_initial_temperature(self):
         temperature = self.count_costs() / (self.num_ver * self.alpha)
