@@ -5,9 +5,9 @@ from SimulatedAnnealing import SimulatedAnnealing
 
 class Temperature:
 
-    def __init__(self, graph, num_ver):
-        self.graph = graph
-        self.num_ver = num_ver
+    def __init__(self, graph):
+        self.graph = graph.g
+        self.num_ver = graph.vertices
 
     def find_initial_temperature(self):
         temperature = self.count_costs() / self.num_ver

@@ -16,11 +16,10 @@ def main():
     for i in range(0, len(file_names)):
         print("========================================================")
 
-        file = ReadFile(file_names[i])
-        graph = file.readData()
-        temp = Temperature(graph, file.num_ver)
+        graph = ReadFile(file_names[i])
+        temp = Temperature(graph)
 
-        print("|>", file.filePath)
+        print("|>", file_names[i])
         print()
 
         errors = 0.0

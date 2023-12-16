@@ -4,8 +4,8 @@ import random
 
 class SimulatedAnnealing:
 
-    def __init__(self, distance_matrix, initial_temperature, cooling_rate, num_iterations):
-        self.distance_matrix = distance_matrix
+    def __init__(self, graph, initial_temperature, cooling_rate, num_iterations):
+        self.distance_matrix = graph.g
         self.initial_temperature = initial_temperature
         self.cooling_rate = cooling_rate
         self.num_iterations = num_iterations
