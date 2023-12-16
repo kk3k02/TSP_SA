@@ -1,5 +1,6 @@
 from ReadINI import ReadINI
 from ReadFile import ReadFile
+from TimeStamp import TimeStamp
 from SimulatedAnnealing import SimulatedAnnealing
 from Temperature import Temperature
 
@@ -12,6 +13,7 @@ def main():
     iniPath = "test.INI"
     reader = ReadINI(iniPath)
     file_names, repeats, results = reader.read_data()
+    timestamp = TimeStamp()
 
     for i in range(0, len(file_names)):
         print("========================================================")
@@ -29,7 +31,11 @@ def main():
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, num_iterations)
+
+            timestamp.start()
             best_solution, best_distance = sa.start("geo", "swap")
+            result = timestamp.end()
+            print(result)
 
             if best_distance != results[i]:
                 errors = errors + ((best_distance - results[i]) / results[i])
@@ -43,7 +49,11 @@ def main():
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
+
+            timestamp.start()
             best_solution, best_distance = sa.start("geo", "rotation")
+            result = timestamp.end()
+            print(result)
 
             if best_distance != results[i]:
                 errors = errors + (best_distance - results[i]) / results[i]
@@ -57,7 +67,11 @@ def main():
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
+
+            timestamp.start()
             best_solution, best_distance = sa.start("log", "swap")
+            result = timestamp.end()
+            print(result)
 
             if best_distance != results[i]:
                 errors = errors + ((best_distance - results[i]) / results[i])
@@ -71,7 +85,11 @@ def main():
 
         for j in range(repeats[i]):
             sa = SimulatedAnnealing(graph, init_temp, cooling_rate, 10000)
+
+            timestamp.start()
             best_solution, best_distance = sa.start("log", "rotation")
+            result = timestamp.end()
+            print(result)
 
             if best_distance != results[i]:
                 errors = errors + ((best_distance - results[i]) / results[i])
